@@ -1,0 +1,87 @@
+
+*** ChampSim Multicore Out-of-Order Simulator ***
+
+Warmup Instructions: 10000000
+Simulation Instructions: 40000000
+Number of CPUs: 1
+LLC sets: 2048
+LLC ways: 16
+Off-chip DRAM Size: 4096 MB Channels: 1 Width: 64-bit Data Rate: 1600 MT/s
+
+CPU 0 runs trace/omnetpp_340B_50M.trace.gz
+CPU 0 Bimodal branch predictor
+Heartbeat CPU 0 instructions: 10000000 cycles: 6939404 heartbeat IPC: 1.44105 cumulative IPC: 1.44105 (Simulation time: 0 hr 0 min 49 sec) 
+
+Warmup complete CPU 0 instructions: 10000001 cycles: 6939405 (Simulation time: 0 hr 0 min 49 sec) 
+
+Heartbeat CPU 0 instructions: 20000000 cycles: 43887886 heartbeat IPC: 0.270647 cumulative IPC: 0.270647 (Simulation time: 0 hr 1 min 53 sec) 
+Heartbeat CPU 0 instructions: 30000000 cycles: 79934330 heartbeat IPC: 0.27742 cumulative IPC: 0.273992 (Simulation time: 0 hr 3 min 31 sec) 
+Heartbeat CPU 0 instructions: 40000000 cycles: 117073988 heartbeat IPC: 0.269254 cumulative IPC: 0.272394 (Simulation time: 0 hr 5 min 5 sec) 
+*** Reached end of trace for Core: 0 Repeating trace: trace/omnetpp_340B_50M.trace.gz
+Heartbeat CPU 0 instructions: 50000000 cycles: 153052132 heartbeat IPC: 0.277947 cumulative IPC: 0.273761 (Simulation time: 0 hr 6 min 10 sec) 
+Finished CPU 0 instructions: 40000000 cycles: 146112823 cummulative IPC: 0.273761 (Simulation time: 0 hr 6 min 10 sec) 
+
+CPU 0 Branch Prediction Accuracy: 93.1641% MPKI: 12.348
+
+ChampSim completed all CPUs
+
+Region of Interest Statistics
+
+CPU 0 cummulative IPC: 0.273761 instructions: 40000000 cycles: 146112823
+L1D TOTAL     ACCESS:   15560513  HIT:   14536751  MISS:    1023762
+L1D LOAD      ACCESS:    9043289  HIT:    8159834  MISS:     883455
+L1D RFO       ACCESS:    6517224  HIT:    6376917  MISS:     140307
+L1D PREFETCH  ACCESS:          0  HIT:          0  MISS:          0
+L1D WRITEBACK ACCESS:          0  HIT:          0  MISS:          0
+L1I TOTAL     ACCESS:    9597734  HIT:    9594679  MISS:       3055
+L1I LOAD      ACCESS:    9597734  HIT:    9594679  MISS:       3055
+L1I RFO       ACCESS:          0  HIT:          0  MISS:          0
+L1I PREFETCH  ACCESS:          0  HIT:          0  MISS:          0
+L1I WRITEBACK ACCESS:          0  HIT:          0  MISS:          0
+L2C TOTAL     ACCESS:    1452644  HIT:     574206  MISS:     878438
+L2C LOAD      ACCESS:     886474  HIT:     138701  MISS:     747773
+L2C RFO       ACCESS:     140305  HIT:      11581  MISS:     128724
+L2C PREFETCH  ACCESS:          0  HIT:          0  MISS:          0
+L2C WRITEBACK ACCESS:     425865  HIT:     423924  MISS:       1941
+LLC TOTAL     ACCESS:    1244923  HIT:     595616  MISS:     649307
+LLC LOAD      ACCESS:     747771  HIT:     196067  MISS:     551704
+LLC RFO       ACCESS:     128724  HIT:      31426  MISS:      97298
+LLC PREFETCH  ACCESS:          0  HIT:          0  MISS:          0
+LLC WRITEBACK ACCESS:     368428  HIT:     368123  MISS:        305
+Major fault: 0 Minor fault: 32694
+
+DRAM Statistics
+ RQ ROW_BUFFER_HIT:     153864  ROW_BUFFER_MISS:     494956
+ DBUS_CONGESTED:     403841
+ WQ ROW_BUFFER_HIT:      33600  ROW_BUFFER_MISS:     238816  FULL:          0
+ DBUS_OCCUPIED_BY_0 BLOCKING_0 numbers: 129928
+ DBUS_OCCUPIED_BY_0 BLOCKING_1 numbers: 0
+ DBUS_OCCUPIED_BY_0 BLOCKING_2 numbers: 0
+ DBUS_OCCUPIED_BY_0 BLOCKING_3 numbers: 0
+ DBUS_OCCUPIED_BY_0 BLOCKING_4 numbers: 129928
+
+ DBUS_OCCUPIED_BY_1 BLOCKING_0 numbers: 0
+ DBUS_OCCUPIED_BY_1 BLOCKING_1 numbers: 13032
+ DBUS_OCCUPIED_BY_1 BLOCKING_2 numbers: 0
+ DBUS_OCCUPIED_BY_1 BLOCKING_3 numbers: 0
+ DBUS_OCCUPIED_BY_1 BLOCKING_4 numbers: 13032
+
+ DBUS_OCCUPIED_BY_2 BLOCKING_0 numbers: 0
+ DBUS_OCCUPIED_BY_2 BLOCKING_1 numbers: 0
+ DBUS_OCCUPIED_BY_2 BLOCKING_2 numbers: 0
+ DBUS_OCCUPIED_BY_2 BLOCKING_3 numbers: 0
+ DBUS_OCCUPIED_BY_2 BLOCKING_4 numbers: 0
+
+ DBUS_OCCUPIED_BY_3 BLOCKING_0 numbers: 0
+ DBUS_OCCUPIED_BY_3 BLOCKING_1 numbers: 0
+ DBUS_OCCUPIED_BY_3 BLOCKING_2 numbers: 0
+ DBUS_OCCUPIED_BY_3 BLOCKING_3 numbers: 260881
+ DBUS_OCCUPIED_BY_3 BLOCKING_4 numbers: 260881
+
+ DBUS_OCCUPIED_BY_4 BLOCKING_0 numbers: 129928
+ DBUS_OCCUPIED_BY_4 BLOCKING_1 numbers: 13032
+ DBUS_OCCUPIED_BY_4 BLOCKING_2 numbers: 0
+ DBUS_OCCUPIED_BY_4 BLOCKING_3 numbers: 260881
+ DBUS_OCCUPIED_BY_4 BLOCKING_4 numbers: 403841
+
+ AVG_CONGESTED_CYCLE: 14
