@@ -13,4 +13,3 @@
 ./run_champsim.sh "bimodal-no-no-lru-1core" "10" "40" "sphinx3_2520B_50M"
 ./run_champsim.sh "bimodal-no-no-lru-1core" "10" "40" "wrf_1212B_50M"
 ./run_champsim.sh "bimodal-no-no-lru-1core" "10" "40" "xalancbmk_748B_50M"
-shutdown now
