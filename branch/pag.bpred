@@ -1,34 +1,56 @@
+/**
+* @Title: Per-address branch history table and global pattern history table (PAg) branch predictor
+* @Author: Nishad Saraf (nishadsaraf@gmail.com)
+* @Created: November 5, 2017 
+* @Revision: 0.1
+*
+*/
+
 #include "ooo_cpu.h"
 
-#define BIMODAL_TABLE_SIZE 16384
-#define BIMODAL_PRIME 16381
-#define MAX_COUNTER 3
-int bimodal_table[NUM_CPUS][BIMODAL_TABLE_SIZE];
+#define PBHT_SIZE 512			// size of per-address branch history table
+#define GPHT_SIZE 4096			// size of global pattern history table
+#define EIGHT_BIT_MASK 0xFF		// bit mask for configuration 1
+#define TWELVE_BIT_MASK 0XFFF	// bit mask for configuration 2
+#define MAX_COUNTER 3			// counter for 2-bit saturation counter
+
+int per_address_branch_history_table[NUM_CPUS][PBHT_SIZE];
+int global_pattern_history_table[NUM_CPUS][GPHT_SIZE];
 
 void O3_CPU::initialize_branch_predictor()
 {
-    cout << "CPU " << cpu << " Bimodal branch predictor" << endl;
+    cout << "CPU " << cpu << " PAg branch predictor" << endl;
 
-    for(int i=0; i<BIMODAL_TABLE_SIZE; i++)
-        bimodal_table[cpu][i] = 0;
+    for(int i=0; i<PBHT_SIZE; i++)
+		per_address_branch_history_table[cpu][i] = 0;
+
+    for(int i=0; i<GPHT_SIZE; i++)
+		global_pattern_history_table[cpu][i] = 0;
 }
 
 uint8_t O3_CPU::predict_branch(uint64_t ip)
 {
     int prediction = 1;
-
-    int hash = ip % BIMODAL_PRIME;
-    prediction = (bimodal_table[cpu][hash] >= ((MAX_COUNTER + 1)/2)) ? 1 : 0;
-
+	int hash = ip % PBHT_SIZE;	// hashing
+    int index = per_address_branch_history_table[cpu][hash];
+    
+    prediction = (global_pattern_history_table[cpu][index]  >= ((MAX_COUNTER + 1)/2)) ? 1 : 0;
     return prediction;
 }
 
 void O3_CPU::last_branch_result(uint64_t ip, uint8_t taken)
 {
-    int hash = ip % BIMODAL_PRIME;
+	int hash = ip % PBHT_SIZE;	// hashing
+    int index = per_address_branch_history_table[cpu][hash];
+    
+    // update the PBHT with correct branch outcome
+    // left shift and insert the new value while masking the other extraneous bits
+    per_address_branch_history_table[cpu][hash] = ((per_address_branch_history_table[cpu][hash] << 1) & TWELVE_BIT_MASK) | taken;
 
-    if (taken && (bimodal_table[cpu][hash] < MAX_COUNTER))
-        bimodal_table[cpu][hash]++;
-    else if ((taken == 0) && (bimodal_table[cpu][hash] > 0))
-        bimodal_table[cpu][hash]--;
+	// update the 2-bit saturation counter to correct state
+    if (taken && (global_pattern_history_table[cpu][index] < MAX_COUNTER))
+    	global_pattern_history_table[cpu][index]++;
+    else if ((taken == 0) && (global_pattern_history_table[cpu][index] > 0))
+		global_pattern_history_table[cpu][index]--;
 }
+
