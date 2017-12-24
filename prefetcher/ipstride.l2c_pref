@@ -1,0 +1,150 @@
+#include "cache.h"
+
+#define DETECTOR_SIZE 64
+#define MASK_BITS 0xFC0	// Mask for 6 bits
+#define RPT_OFFSET_WIDTH 12
+
+struct ip_stride_pf_entry_t{
+	uint64_t ip;
+	uint64_t page;
+	int last_offset;
+	int stride;
+	int confidence; // 0 is newly allocated, 1 means transient, 2 means steady
+} pf_detector[DETECTOR_SIZE];
+
+// ip_stride_pf_entry_t pf_detector[DETECTOR_SIZE];
+
+int head_ptr;
+
+void CACHE::l2c_prefetcher_initialize() 
+{
+    cout << "CPU " << cpu << " L2C IP Stride Prefetcher" << endl;
+	
+	head_ptr = -1;
+	
+	for(int i = 0; i < DETECTOR_SIZE; i++){
+		pf_detector[i].ip = 0;
+		pf_detector[i].page = 0;
+		pf_detector[i].last_offset = 0;
+		pf_detector[i].stride = 0;
+		pf_detector[i].confidence = 0;
+	}
+}
+
+int findMyIp(uint64_t pc){
+	int position = -1;
+	for(int i = 0; i < DETECTOR_SIZE; i++){
+		if(pc == pf_detector[i].ip){
+			position = i;
+			return position;
+		}
+	}
+	return position;
+}
+
+
+void printStats(){
+	
+	cout << "---------------------------------------------------------------------------------------------------------------------" << endl;
+	for(int i = 0; i < DETECTOR_SIZE; i++){
+		cout << " IP = " << pf_detector[i].ip;
+		cout << " page = " << pf_detector[i].page;
+		cout << " last_offset = " << pf_detector[i].last_offset;
+		cout << " Stride = " << pf_detector[i].stride;
+		cout << " Confidence = " << pf_detector[i].confidence << endl;
+	}
+	cout << "---------------------------------------------------------------------------------------------------------------------" << endl;
+}
+
+void CACHE::l2c_prefetcher_operate(uint64_t addr, uint64_t ip, uint8_t cache_hit, uint8_t type)
+{
+	uint64_t pf_addr;
+
+	int new_offset = addr & MASK_BITS;
+	uint64_t new_page = addr >> RPT_OFFSET_WIDTH;
+	
+	int index = findMyIp(ip);
+	
+	// check if ip matches in the RPT
+	if(index >= 0){
+		// check if the page value matches 
+		if(new_page == pf_detector[index].page){
+			// calculate the new stride
+			int new_stride =  new_offset - pf_detector[index].last_offset;
+			// determine the confidence value
+			// if 0 then update it to transient state
+			if(0 == pf_detector[index].confidence){
+				// update the last_offset and stride
+				pf_detector[index].confidence = 1;
+				pf_detector[index].last_offset = new_offset;
+				pf_detector[index].stride = new_stride;
+			}
+			// else if 1 then then check for stride
+			else if(1 == pf_detector[index].confidence){
+				// if stride matches then move to stable state after updating last_offset
+				if(new_stride == pf_detector[index].stride){
+					pf_detector[index].confidence = 2;
+					pf_addr = addr + pf_detector[index].stride;
+					pf_detector[index].last_offset = new_offset;
+					prefetch_line(ip, addr, pf_addr, FILL_L2);
+				}
+				// else update the last_offset and stride
+				else{
+					pf_detector[index].last_offset = new_offset;
+					pf_detector[index].stride = new_stride;
+				}
+			}
+			// else if 2 then check for stride
+			else if(2 == pf_detector[index].confidence){
+				// printStats();
+				// if it matches then start prefetching and update the last_offset
+				if(new_stride == pf_detector[index].stride){
+//					pf_addr = (pf_detector[index].page << RPT_OFFSET_WIDTH) + pf_detector[index].last_offset + pf_detector[index].stride;
+					pf_addr = addr + pf_detector[index].stride;
+					pf_detector[index].last_offset = new_offset;	
+					prefetch_line(ip, addr, pf_addr, FILL_L2);				
+				}
+				// else move to the transient state update the stride and last_offset
+				else {
+					pf_detector[index].confidence = 1;
+					pf_detector[index].stride = new_stride;
+					pf_detector[index].last_offset = new_offset;
+				}
+			}
+		}
+		// else update the page value and reset the stride and confidence
+		else{
+			pf_detector[index].page = new_page;
+			pf_detector[index].stride = 0;
+			pf_detector[index].confidence = 0;
+		}
+	}
+	// if returns -1 then create new entry 
+	else{
+		// if head_ptr is not pointing to the end of array then increase it by 1
+		if(head_ptr == (DETECTOR_SIZE - 1))
+			head_ptr = 0;
+		// else wrap it to 0th position
+		else
+			head_ptr++;
+		
+		// initialize the struct members with new ip, page value, last_offset 		
+		// update the stride and confidence to 0
+		pf_detector[head_ptr].ip = ip;
+		pf_detector[head_ptr].page = new_page;
+		pf_detector[head_ptr].last_offset = new_offset;
+		pf_detector[head_ptr].stride = 0;
+		pf_detector[head_ptr].confidence = 0;
+	}  
+}
+
+void CACHE::l2c_prefetcher_cache_fill(uint64_t addr, uint32_t set, uint32_t way, uint8_t prefetch, uint64_t evicted_addr)
+{
+
+}
+
+void CACHE::l2c_prefetcher_final_stats()
+{
+    cout << "CPU " << cpu << " L2C next line prefetcher final stats" << endl;
+}
+
