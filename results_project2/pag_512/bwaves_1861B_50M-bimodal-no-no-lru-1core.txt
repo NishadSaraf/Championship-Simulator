@@ -1,0 +1,83 @@
+
+*** ChampSim Multicore Out-of-Order Simulator ***
+
+Warmup Instructions: 5000000
+Simulation Instructions: 20000000
+Number of CPUs: 1
+LLC sets: 2048
+LLC ways: 16
+Off-chip DRAM Size: 4096 MB Channels: 1 Width: 64-bit Data Rate: 1600 MT/s
+
+CPU 0 runs trace/bwaves_1861B_50M.trace.gz
+CPU 0 PAg branch predictor
+
+Warmup complete CPU 0 instructions: 5000003 cycles: 3142319 (Simulation time: 0 hr 0 min 22 sec) 
+
+Heartbeat CPU 0 instructions: 10000003 cycles: 10030079 heartbeat IPC: 0.997001 cumulative IPC: 0.725925 (Simulation time: 0 hr 0 min 49 sec) 
+Heartbeat CPU 0 instructions: 20000000 cycles: 23806938 heartbeat IPC: 0.725855 cumulative IPC: 0.725878 (Simulation time: 0 hr 1 min 40 sec) 
+Finished CPU 0 instructions: 20000003 cycles: 27569732 cummulative IPC: 0.725433 (Simulation time: 0 hr 2 min 5 sec) 
+
+CPU 0 Branch Prediction Accuracy: 99.9502% MPKI: 0.0149
+
+ChampSim completed all CPUs
+
+Region of Interest Statistics
+
+CPU 0 cummulative IPC: 0.725433 instructions: 20000003 cycles: 27569732
+L1D TOTAL     ACCESS:    8218703  HIT:    7733360  MISS:     485343
+L1D LOAD      ACCESS:    7658965  HIT:    7186055  MISS:     472910
+L1D RFO       ACCESS:     559738  HIT:     547305  MISS:      12433
+L1D PREFETCH  ACCESS:          0  HIT:          0  MISS:          0
+L1D WRITEBACK ACCESS:          0  HIT:          0  MISS:          0
+L1I TOTAL     ACCESS:    5583962  HIT:    5583962  MISS:          0
+L1I LOAD      ACCESS:    5583962  HIT:    5583962  MISS:          0
+L1I RFO       ACCESS:          0  HIT:          0  MISS:          0
+L1I PREFETCH  ACCESS:          0  HIT:          0  MISS:          0
+L1I WRITEBACK ACCESS:          0  HIT:          0  MISS:          0
+L2C TOTAL     ACCESS:     498797  HIT:      43369  MISS:     455428
+L2C LOAD      ACCESS:     472870  HIT:      29203  MISS:     443667
+L2C RFO       ACCESS:      12418  HIT:        742  MISS:      11676
+L2C PREFETCH  ACCESS:          0  HIT:          0  MISS:          0
+L2C WRITEBACK ACCESS:      13509  HIT:      13424  MISS:         85
+LLC TOTAL     ACCESS:     467128  HIT:      11758  MISS:     455370
+LLC LOAD      ACCESS:     443668  HIT:          1  MISS:     443667
+LLC RFO       ACCESS:      11676  HIT:          0  MISS:      11676
+LLC PREFETCH  ACCESS:          0  HIT:          0  MISS:          0
+LLC WRITEBACK ACCESS:      11784  HIT:      11757  MISS:         27
+Major fault: 0 Minor fault: 8529
+
+DRAM Statistics
+ RQ ROW_BUFFER_HIT:     403797  ROW_BUFFER_MISS:      51547
+ DBUS_CONGESTED:     224062
+ WQ ROW_BUFFER_HIT:       5863  ROW_BUFFER_MISS:       5843  FULL:          0
+ DBUS_OCCUPIED_BY_0 BLOCKING_0 numbers: 212665
+ DBUS_OCCUPIED_BY_0 BLOCKING_1 numbers: 0
+ DBUS_OCCUPIED_BY_0 BLOCKING_2 numbers: 0
+ DBUS_OCCUPIED_BY_0 BLOCKING_3 numbers: 0
+ DBUS_OCCUPIED_BY_0 BLOCKING_4 numbers: 212665
+
+ DBUS_OCCUPIED_BY_1 BLOCKING_0 numbers: 0
+ DBUS_OCCUPIED_BY_1 BLOCKING_1 numbers: 201
+ DBUS_OCCUPIED_BY_1 BLOCKING_2 numbers: 0
+ DBUS_OCCUPIED_BY_1 BLOCKING_3 numbers: 0
+ DBUS_OCCUPIED_BY_1 BLOCKING_4 numbers: 201
+
+ DBUS_OCCUPIED_BY_2 BLOCKING_0 numbers: 0
+ DBUS_OCCUPIED_BY_2 BLOCKING_1 numbers: 0
+ DBUS_OCCUPIED_BY_2 BLOCKING_2 numbers: 0
+ DBUS_OCCUPIED_BY_2 BLOCKING_3 numbers: 0
+ DBUS_OCCUPIED_BY_2 BLOCKING_4 numbers: 0
+
+ DBUS_OCCUPIED_BY_3 BLOCKING_0 numbers: 0
+ DBUS_OCCUPIED_BY_3 BLOCKING_1 numbers: 0
+ DBUS_OCCUPIED_BY_3 BLOCKING_2 numbers: 0
+ DBUS_OCCUPIED_BY_3 BLOCKING_3 numbers: 11196
+ DBUS_OCCUPIED_BY_3 BLOCKING_4 numbers: 11196
+
+ DBUS_OCCUPIED_BY_4 BLOCKING_0 numbers: 212665
+ DBUS_OCCUPIED_BY_4 BLOCKING_1 numbers: 201
+ DBUS_OCCUPIED_BY_4 BLOCKING_2 numbers: 0
+ DBUS_OCCUPIED_BY_4 BLOCKING_3 numbers: 11196
+ DBUS_OCCUPIED_BY_4 BLOCKING_4 numbers: 224062
+
+ AVG_CONGESTED_CYCLE: 9
